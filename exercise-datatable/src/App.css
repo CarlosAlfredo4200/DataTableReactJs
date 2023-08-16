@@ -1,0 +1,135 @@
+*{
+  margin: 0;
+  padding: 0;
+  
+}
+
+.headerTable{
+ 
+background-color: #1a202c;
+box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
+}
+
+.headerTable-div{
+margin-left: auto;
+margin-right: auto;
+padding-top: 1.5rem;
+padding-bottom: 1.5rem;
+padding-left: 1rem;
+padding-right: 1rem;
+}
+
+.headerTable-Title{
+color: white;
+font-weight: bold;
+font-size: 1.875rem;
+
+}
+
+.mainTable{
+margin-left: auto;
+margin-right: auto;
+padding-top: 1.5rem;
+padding-bottom: 1.5rem;
+}
+
+.divTable{
+padding-left: 1.5rem;
+padding-right: 1.5rem;
+padding-top: 1rem;
+padding-bottom: 1rem;
+}
+
+.table {
+  table-layout: auto;
+  width: 100%;
+}
+.table-tr{
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: currentColor;
+border-color: #d1d5db;
+color: #6b7280;
+background-color: #f3f4f6;
+}
+
+.table-th{
+padding-top: 0.5rem;
+padding-bottom: 0.5rem;
+padding-left: 1rem;
+padding-right: 1rem;
+text-align: left;
+text-transform: uppercase;
+}
+
+ 
+.tbody-tr{
+  color: #6b7280;  
+  transition: background-color 0.3s ease-in-out; 
+}
+
+ 
+.tbody-tr:hover {
+  background-color: #cbd5e0; 
+}
+
+.tbody-td{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.container-flechas{
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flechas-div{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flechas-btn{
+  color: #6b7280;
+  background-color: #edf2f7;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid;
+  border-color: #d1d5db;
+
+  opacity: 0.5;
+  background-color: gray; 
+  color: #000; 
+  cursor: not-allowed; 
+}
+
+.flechas-btn:hover{
+  background-color: white;
+  color: #999;
+}
+
+.div-input-buscador{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: right;
+}
+
+.input-buscador{
+  color: #6b7280;
+  border: 1px solid;
+  border-color: #d1d5db;
+  border-radius: 0.25rem;
+  padding: 8px;
+}
+
+.input-buscador:focus{
+outline: 0.5px solid #95959793;
+}
