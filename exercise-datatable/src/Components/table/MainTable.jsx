@@ -1,12 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
-// import { FaBeer } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FcBinoculars } from 'react-icons/fc';
+ 
+ 
 import {
     flexRender,
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
-    getFilteredRowModel
+    getFilteredRowModel,
+    
 
 
 } from '@tanstack/react-table'
@@ -14,11 +17,32 @@ import { useData } from '../../assets/utils/useData'
 
 import { rankItem } from '@tanstack/match-sorter-utils'
 
+
+function search(row, columnId, value, addMeta) {
+    const itemRank = rankItem(row.getValue(columnId), value);
+    addMeta({ itemRank })
+    return itemRank.passed
+}
+
+// eslint-disable-next-line react/prop-types
+const DebouncedInput = ({ value: keyWord, onChange, ...props }) => {
+    const [value, setValue] = useState(keyWord);
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            onChange(value)
+        }, 500);
+        return () => clearTimeout(timeout)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value])
+
+    return (<input {...props} value={value} onChange={e => setValue(e.target.value)} />)
+}
 export const MainTable = () => {
 
     // eslint-disable-next-line no-unused-vars
     const [data, setdata] = useState(useData);
-    const [globalFilter, setGlobalFilter] = useState('')
+    const [globalFilter, setGlobalFilter] = useState('');
+    const [sorting, setSetsorting] = useState([]);
 
     const columns = [
         {
@@ -33,41 +57,60 @@ export const MainTable = () => {
         {
             accessorKey: 'marca',
         },
+         
         {
-            accessorKey: 'detalles',
-        },
-        {
-            accessorKey: 'precio',
-        },
-        {
-            accessorKey: 'cantidad',
-        },
-        {
-            accessorKey: 'Accion',
+            header: 'Acciones',
+            cell: info => {
+                return (
+                    <div>
+                        <FcBinoculars className='icons'/>
+                    </div>
+                )
+            }
         },
     ]
 
-    function search(row, columnId, value, addMeta) {
+const getStateTable = () => {
+        const totalRows = table.getFilteredRowModel().rows.length;
+        const pageSize = table.getState().pagination.pageSize;
+        const pageIndex = table.getState().pagination.pageIndex;
+        const rowsPerPage = table.getRowModel().rows.length;
         
+        const firstIndex = (pageIndex * pageSize) + 1;
+        const lastIndex  = (pageIndex * pageSize) + rowsPerPage; 
+
+    return { 
+        totalRows,
+        firstIndex,
+        lastIndex
     }
+}
 
     const table = useReactTable({
         data,
         columns,
+        state: {
+            globalFilter,
+            sorting
+        },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        globalFilterFn: search
+        globalFilterFn: search,
+         
+        onSortingChange: setSetsorting
+
     })
 
     return (
         <div className="divTable">
             <div className="div-input-buscador">
-                <input 
-                type="text" 
-                className='input-buscador'
-                placeholder='Buscar...'
-                onChange={e => setGlobalFilter(e.target.value)}
+                <DebouncedInput
+                    type="text"
+                    className='input-buscador'
+                    value={globalFilter ?? ''}
+                    placeholder='Buscar producto...'
+                    onChange={value => setGlobalFilter(String(value))}
                 />
             </div>
             <table className='table'>
@@ -80,10 +123,14 @@ export const MainTable = () => {
                                         <th key={header.id} className='table-th'>
                                             {header.isPlaceholder
                                                 ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )
+                                                : <div>
+                                                    {
+                                                        flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )
+                                                    }
+                                                </div>
                                             }
                                         </th>
                                     ))
@@ -149,9 +196,9 @@ export const MainTable = () => {
                 </div>
 
                 <div className="flechas-info">
-                    <p>Registros del {Number(table.getRowModel().rows[0].id) + 1}&nbsp;
-                    hasta {Number(table.getRowModel().rows[table.getRowModel().rows.length - 1].id) + 1}&nbsp;
-                    de {data.length} </p>
+                    <p>Registros del {getStateTable().firstIndex}&nbsp;
+                        hasta {getStateTable().lastIndex}&nbsp;
+                        de {getStateTable().totalRows} </p>
                 </div>
 
 

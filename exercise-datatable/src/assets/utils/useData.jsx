@@ -277,6 +277,16 @@ export const useData = [
 "detalles": "5 quemadores, Encendido eléctrico, Horno de autolimpieza",
 "precio": 749.99,
 "cantidad": 25
+},
+{
+"id": GeneradorId(),
+"categoria": "Equipo",
+"nombre": "Equipo de sonido ",
+"marca": "hogar",
+"detalles": "Equipo de sonido 5.1 sonido envolvente",
+"precio": 500,
+"cantidad": 2
 }
+
 
 ]
